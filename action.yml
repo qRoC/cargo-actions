@@ -1,0 +1,32 @@
+name: 'Rust Cargo integration'
+description: 'Integration Rust Cargo with GitHub Actions'
+author: qRoC
+inputs:
+  command:
+    required: true
+    description: 'Cargo command like `build`, `check`, `test`, etc'
+  args:
+    required: false
+    description: 'Arguments for the cargo command'
+  manifest-path:
+    required: false
+    description: 'Path to the Cargo.toml. By default, is the working directory.'
+  token:
+    required: false
+    description: 'GitHub token. Used for enable more powerful annotation system.'
+  toolchain:
+    required: false
+    description: 'Toolchain to use. For example: `nightly`'
+outputs:
+  notice_count:
+    description: 'notice count'
+  warning_count:
+    description: 'warning count'
+  failure_count:
+    description: 'failure count'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+branding:
+  icon: circle
+  color: blue

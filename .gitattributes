@@ -1,0 +1,7 @@
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.github export-ignore
+
+CHANGELOG.md merge=union
+
+dist/** -diff linguist-generated=true

@@ -1,0 +1,14 @@
+# project
+node_modules
+__tests__/runner/*
+lib/**/*
+raw-log.md
+
+# JetBrains
+/.idea
+
+# Visual Studio Code
+/.vscode
+
+# macOS
+.DS_Store
