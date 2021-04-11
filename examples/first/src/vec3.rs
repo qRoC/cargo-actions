@@ -38,7 +38,7 @@ mod tests {
 
     #[test]
     fn add() {
-        let a = Vec3::new(0.0, 1.0, 2.0);
+        let a = Vec3::new(0.0, 1.0, 2.0a);
         let b = Vec3::new(3.0, 4.0, 5.0);
         assert_eq!(a + b, Vec3::new(3.0, 5.0, 7.0));
     }
