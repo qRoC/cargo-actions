@@ -13,7 +13,6 @@ import {
   parseMessage
 } from './metadata/messages'
 import {CargoProject} from './CargoProject'
-import os from 'os'
 
 ///
 export class Cargo {
