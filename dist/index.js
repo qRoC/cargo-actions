@@ -81,6 +81,8 @@ class Cargo {
     ///
     runCommand(command, args) {
         return __awaiter(this, void 0, void 0, function* () {
+            let outBuffer = '';
+            let errBuffer = '';
             const resultCode = yield exec.exec('cargo', [
                 this.project.toolchain,
                 command,
@@ -91,8 +93,12 @@ class Cargo {
                 silent: true,
                 ignoreReturnCode: true,
                 listeners: {
-                    stdline: this.processOutputLine,
-                    errline: this.processErrorLine,
+                    stdout: (data) => {
+                        outBuffer = Cargo.processLineBuffer(data, outBuffer, this.processOutputLine);
+                    },
+                    stderr: (data) => {
+                        errBuffer = Cargo.processLineBuffer(data, errBuffer, this.processErrorLine);
+                    },
                     debug: this.processOutputLine
                 }
             });
@@ -102,6 +108,19 @@ class Cargo {
     }
     isFormatterSupport(command) {
         return command !== 'fmt' && command !== 'audit';
+    }
+    static processLineBuffer(data, strBuffer, onLine) {
+        const EOL = '\n';
+        let s = strBuffer + data.toString();
+        let n = s.indexOf(EOL);
+        while (n > -1) {
+            const line = s.substring(0, n);
+            onLine(line);
+            // the rest of the string ...
+            s = s.substring(n + EOL.length);
+            n = s.indexOf(EOL);
+        }
+        return s;
     }
 }
 exports.Cargo = Cargo;

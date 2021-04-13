@@ -13,6 +13,7 @@ import {
   parseMessage
 } from './metadata/messages'
 import {CargoProject} from './CargoProject'
+import os from 'os'
 
 ///
 export class Cargo {
@@ -35,6 +36,8 @@ export class Cargo {
 
   ///
   async runCommand(command: string, args: string[]): Promise<number> {
+    let outBuffer = ''
+    let errBuffer = ''
     const resultCode = await exec.exec(
       'cargo',
       [
@@ -48,8 +51,20 @@ export class Cargo {
         silent: true,
         ignoreReturnCode: true,
         listeners: {
-          stdline: this.processOutputLine,
-          errline: this.processErrorLine,
+          stdout: (data: Buffer) => {
+            outBuffer = Cargo.processLineBuffer(
+              data,
+              outBuffer,
+              this.processOutputLine
+            )
+          },
+          stderr: (data: Buffer) => {
+            errBuffer = Cargo.processLineBuffer(
+              data,
+              errBuffer,
+              this.processErrorLine
+            )
+          },
           debug: this.processOutputLine
         }
       }
@@ -89,5 +104,27 @@ export class Cargo {
 
   private isFormatterSupport(command: string): boolean {
     return command !== 'fmt' && command !== 'audit'
+  }
+
+  private static processLineBuffer(
+    data: Buffer,
+    strBuffer: string,
+    onLine: (line: string) => void
+  ): string {
+    const EOL = '\n'
+
+    let s = strBuffer + data.toString()
+    let n = s.indexOf(EOL)
+
+    while (n > -1) {
+      const line = s.substring(0, n)
+      onLine(line)
+
+      // the rest of the string ...
+      s = s.substring(n + EOL.length)
+      n = s.indexOf(EOL)
+    }
+
+    return s
   }
 }
