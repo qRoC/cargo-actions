@@ -13,6 +13,7 @@ jobs:
         with:
           command: build
           args: --verbose
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   code_style:
     continue-on-error: true
@@ -23,7 +24,9 @@ jobs:
       - uses: fibiol/cargo-actions@v1
         with:
           command: fmt
+          toolchain: nightly
           args: --all -- --check
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   lint:
     continue-on-error: true
@@ -35,6 +38,7 @@ jobs:
         with:
           command: clippy
           args: --all-features --all-targets -- -D warnings
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   tests:
     runs-on: ubuntu-latest
@@ -45,6 +49,7 @@ jobs:
         with:
           command: test
           args: --all-features --no-fail-fast --jobs 1
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   audit:
     runs-on: ubuntu-latest
