@@ -1,5 +1,35 @@
 # Integration Rust Cargo with GitHub Actions
 
+## Overview
+
+### Error in code
+
+![Error in code](doc/code_error.png)
+
+### Failed test
+
+![Failed test](doc/test_error.png)
+
+### General result
+
+![doc/result.png](doc/result.png)
+
+## Inputs
+
+- **Required** `command`: Cargo command like `build`, `check`, `test`, etc.
+- `args`: Arguments for the cargo command.
+- `manifest-path`: Path to the Cargo.toml. By default, is the working directory.
+- `token`: GitHub token. Used for enable more powerful annotation system. *Strongly recommended**
+- `toolchain`: Toolchain to use. For example: `nightly`.
+
+_* Default GitHub Actions annotations supports only up to 10 warnings and 10 errors for per the step. With `token` you up this limit to `1000`_
+
+## Outputs
+
+- `notice_count`: Notice count.
+- `warning_count`: Warning count.
+- `failure_count`: Failure count.
+
 ## Example
 
 ```yaml
@@ -60,22 +90,6 @@ jobs:
         with:
           command: audit
 ```
-
-## Inputs
-
-- **Required** `command`: Cargo command like `build`, `check`, `test`, etc.
-- `args`: Arguments for the cargo command.
-- `manifest-path`: Path to the Cargo.toml. By default, is the working directory.
-- `token`: GitHub token. Used for enable more powerful annotation system. *Strongly recommended**
-- `toolchain`: Toolchain to use. For example: `nightly`.
-
-_* Default GitHub Actions annotations supports only up to 10 warnings and 10 errors for per the step. With `token` you up this limit to `1000`_
-
-## Outputs
-
-- `notice_count`: Notice count.
-- `warning_count`: Warning count.
-- `failure_count`: Failure count.
 
 ## For developers
 
