@@ -1,15 +1,18 @@
-// This file is part of the fibiol.com.
+// This file is part of the cargo-actions.
 //
-// (c) Andrey Savitsky <contact@qroc.pro>
+// Copyright (c) Andrii Savytskyi <contact@qroc.pro>
+//
+// For the full copyright and license information, please view
+// the LICENSE file that was distributed with this source code.
 
-import {CargoOutputListener} from '../CargoOutputListener'
+import {CargoOutputListener} from '../cargo-output-listener'
 import {
   AnnotationLevel,
   AnnotationRecorder,
   AnnotationBlock,
   Annotation
 } from '../annotation'
-import {CargoProject} from '../CargoProject'
+import {CargoProject} from '../cargo-project'
 import {
   Artifact,
   CompilerMessage,
@@ -17,7 +20,7 @@ import {
   BuildFinished
 } from '../metadata/messages'
 import {DiagnosticLevel} from '../metadata/diagnostic'
-import {BufferedStd} from '../utils/BufferedStd'
+import {BufferedStd} from '../utils/buffered-std'
 import {info} from '@actions/core'
 
 export class CompilerOutputListener implements CargoOutputListener {

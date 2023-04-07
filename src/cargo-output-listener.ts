@@ -1,6 +1,9 @@
-// This file is part of the fibiol.com.
+// This file is part of the cargo-actions.
 //
-// (c) Andrey Savitsky <contact@qroc.pro>
+// Copyright (c) Andrii Savytskyi <contact@qroc.pro>
+//
+// For the full copyright and license information, please view
+// the LICENSE file that was distributed with this source code.
 
 import {
   Artifact,
@@ -32,7 +35,7 @@ export class CargoOutputListeners implements CargoOutputListener {
 
   artifact(record: Artifact): boolean {
     for (const listener of this.listeners) {
-      let stopIterate = listener.artifact(record)
+      const stopIterate = listener.artifact(record)
       if (stopIterate) {
         return true
       }
@@ -43,7 +46,7 @@ export class CargoOutputListeners implements CargoOutputListener {
 
   compilerMessage(record: CompilerMessage): boolean {
     for (const listener of this.listeners) {
-      let stopIterate = listener.compilerMessage(record)
+      const stopIterate = listener.compilerMessage(record)
       if (stopIterate) {
         return true
       }
@@ -54,7 +57,7 @@ export class CargoOutputListeners implements CargoOutputListener {
 
   buildScript(record: BuildScript): boolean {
     for (const listener of this.listeners) {
-      let stopIterate = listener.buildScript(record)
+      const stopIterate = listener.buildScript(record)
       if (stopIterate) {
         return true
       }
@@ -65,7 +68,7 @@ export class CargoOutputListeners implements CargoOutputListener {
 
   buildFinished(record: BuildFinished): boolean {
     for (const listener of this.listeners) {
-      let stopIterate = listener.buildFinished(record)
+      const stopIterate = listener.buildFinished(record)
       if (stopIterate) {
         return true
       }
@@ -76,7 +79,7 @@ export class CargoOutputListeners implements CargoOutputListener {
 
   textLine(record: string, isError: boolean): boolean {
     for (const listener of this.listeners) {
-      let stopIterate = listener.textLine(record, isError)
+      const stopIterate = listener.textLine(record, isError)
       if (stopIterate) {
         return true
       }

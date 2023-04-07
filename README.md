@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: fibiol/cargo-actions@v1
+      - uses: qRoC/cargo-actions@v1
         with:
           command: build
           args: --verbose
@@ -51,7 +51,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: fibiol/cargo-actions@v1
+      - uses: qRoC/cargo-actions@v1
         with:
           command: fmt
           toolchain: nightly
@@ -64,7 +64,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: fibiol/cargo-actions@v1
+      - uses: qRoC/cargo-actions@v1
         with:
           command: clippy
           args: --all-features --all-targets -- -D warnings
@@ -75,7 +75,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: fibiol/cargo-actions@v1
+      - uses: qRoC/cargo-actions@v1
         with:
           command: test
           args: --all-features --no-fail-fast --jobs 1
@@ -86,7 +86,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: fibiol/cargo-actions@v1
+      - uses: qRoC/cargo-actions@v1
         with:
           command: audit
 ```

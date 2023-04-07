@@ -1,8 +1,11 @@
-// This file is part of the fibiol.com.
+// This file is part of the cargo-actions.
 //
-// (c) Andrey Savitsky <contact@qroc.pro>
+// Copyright (c) Andrii Savytskyi <contact@qroc.pro>
+//
+// For the full copyright and license information, please view
+// the LICENSE file that was distributed with this source code.
 
-import {AnnotationBlock} from '../../../src/annotation'
+import { AnnotationBlock } from '../../../src/annotation'
 
 describe('AnnotationBlock.create', () => {
   it('auto set endLine', () => {

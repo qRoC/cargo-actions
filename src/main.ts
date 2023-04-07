@@ -1,18 +1,21 @@
-// This file is part of the fibiol.com.
+// This file is part of the cargo-actions.
 //
-// (c) Andrey Savitsky <contact@qroc.pro>
+// Copyright (c) Andrii Savytskyi <contact@qroc.pro>
+//
+// For the full copyright and license information, please view
+// the LICENSE file that was distributed with this source code.
 
 import {getInput, setFailed, setOutput} from '@actions/core'
-import {CargoProject} from './CargoProject'
-import {Cargo} from './Cargo'
-import {ChecksAnnotationRecorder} from './annotation/recorders/ChecksAnnotationRecorder'
-import {CommandAnnotationRecorder} from './annotation/recorders/CommandAnnotationRecorder'
+import {CargoProject} from './cargo-project'
+import {Cargo} from './cargo'
+import {ChecksAnnotationRecorder} from './annotation/recorders/checks-annotation-recorder'
+import {CommandAnnotationRecorder} from './annotation/recorders/command-annotation-recorder'
 import {AnnotationRecorder} from './annotation'
 import {context as githubContext} from '@actions/github'
-import {CompilerOutputListener} from './listeners/CompilerOutputListener'
-import {BufferedStd} from './utils/BufferedStd'
-import {DebugListener} from './listeners/DebugListener'
-import {TestOutputListener} from './listeners/TestOutputListener'
+import {CompilerOutputListener} from './listeners/compiler-output-listener'
+import {BufferedStd} from './utils/buffered-std'
+import {DebugListener} from './listeners/debug-listener'
+import {TestOutputListener} from './listeners/test-output-listener'
 
 class Input {
   readonly manifestPath: string

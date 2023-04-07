@@ -1,6 +1,9 @@
-// This file is part of the fibiol.com.
+// This file is part of the cargo-actions.
 //
-// (c) Andrey Savitsky <contact@qroc.pro>
+// Copyright (c) Andrii Savytskyi <contact@qroc.pro>
+//
+// For the full copyright and license information, please view
+// the LICENSE file that was distributed with this source code.
 
 import {AnnotationRecorder, Annotation, AnnotationLevel} from '../index'
 import {getOctokit} from '@actions/github'
@@ -167,7 +170,7 @@ class GithubChecks {
     }
 
     if (this.id === undefined) {
-      const response = await this.client.checks.create(options)
+      const response = await this.client.rest.checks.create(options)
       assert(
         response.status === 201,
         'Response has bad status code, but RequestError not throws'
@@ -176,7 +179,7 @@ class GithubChecks {
       this.id = response.data.id
       options.check_run_id = this.id
     } else {
-      const response = await this.client.checks.update(options)
+      const response = await this.client.rest.checks.update(options)
       assert(
         response.status === 200,
         'Response has bad status code, but RequestError not throws'
@@ -187,7 +190,7 @@ class GithubChecks {
     while (annotations.length > 0) {
       options.output.annotations = annotations
 
-      const response = await this.client.checks.update(options)
+      const response = await this.client.rest.checks.update(options)
       assert(
         response.status === 200,
         'Response has bad status code, but RequestError not throws'
@@ -204,7 +207,7 @@ class GithubChecks {
       options.conclusion = this.completedInfo.conclusion
       options.completed_at = this.completedInfo.completedAt.toISOString()
 
-      const response = await this.client.checks.update(options)
+      const response = await this.client.rest.checks.update(options)
       assert(
         response.status === 200,
         'Response has bad status code, but RequestError not throws'

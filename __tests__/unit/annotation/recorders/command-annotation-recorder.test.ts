@@ -1,9 +1,12 @@
-// This file is part of the fibiol.com.
+// This file is part of the cargo-actions.
 //
-// (c) Andrey Savitsky <contact@qroc.pro>
+// Copyright (c) Andrii Savytskyi <contact@qroc.pro>
+//
+// For the full copyright and license information, please view
+// the LICENSE file that was distributed with this source code.
 
-import {CommandAnnotationRecorder} from '../../../../src/annotation/recorders/CommandAnnotationRecorder'
-import {Annotation, AnnotationBlock} from '../../../../src/annotation'
+import { CommandAnnotationRecorder } from '../../../../src/annotation/recorders/command-annotation-recorder'
+import { Annotation, AnnotationBlock } from '../../../../src/annotation'
 
 describe('CommandAnnotationRecorder', () => {
   beforeAll(() => {

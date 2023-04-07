@@ -1,8 +1,14 @@
-// This file is part of the fibiol.com.
+// This file is part of the cargo-actions.
 //
-// (c) Andrey Savitsky <contact@qroc.pro>
+// Copyright (c) Andrii Savytskyi <contact@qroc.pro>
+//
+// For the full copyright and license information, please view
+// the LICENSE file that was distributed with this source code.
 
-import {CargoOutputListener, CargoOutputListeners} from './CargoOutputListener'
+import {
+  CargoOutputListener,
+  CargoOutputListeners
+} from './cargo-output-listener'
 import * as exec from '@actions/exec'
 import {
   Artifact,
@@ -12,7 +18,7 @@ import {
   MessageType,
   parseMessage
 } from './metadata/messages'
-import {CargoProject} from './CargoProject'
+import {CargoProject} from './cargo-project'
 
 ///
 export class Cargo {
@@ -76,7 +82,6 @@ export class Cargo {
 
   ///
   private processOutputLine = (line: string): boolean => {
-    // eslint-disable-next-line no-invalid-this
     const listeners = this.listeners
     const [type, record] = parseMessage(line)
     switch (type) {
@@ -97,7 +102,6 @@ export class Cargo {
 
   ///
   private processErrorLine = (line: string): boolean => {
-    // eslint-disable-next-line no-invalid-this
     return this.listeners.textLine(line, true)
   }
 

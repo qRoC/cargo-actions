@@ -1,6 +1,9 @@
-// This file is part of the fibiol.com.
+// This file is part of the cargo-actions.
 //
-// (c) Andrey Savitsky <contact@qroc.pro>
+// Copyright (c) Andrii Savytskyi <contact@qroc.pro>
+//
+// For the full copyright and license information, please view
+// the LICENSE file that was distributed with this source code.
 
 import {AnnotationRecorder, Annotation, AnnotationLevel} from '../index'
 import {issueCommand} from '@actions/core/lib/command'
@@ -43,33 +46,52 @@ export class CommandAnnotationRecorder implements AnnotationRecorder {
     this.stats[annotation.level]++
   }
 
-  addInfoTable(section: string, title: string, value: string, rows: Record<string, string | number>): void {
+  addInfoTable(
+    section: string,
+    title: string,
+    value: string,
+    rows: Record<string, string | number>
+  ): void {
     const pad = CommandAnnotationRecorder.pad
 
-    const [titleLength, valueLength] = Object.entries(rows).reduce((result, [title, value]) => {
-      return [
-        Math.max(result[0], title.length),
-        Math.max(result[1], `${value}`.length)
-      ]
-    }, [title.length, value.length])
+    const [titleLength, valueLength] = Object.entries(rows).reduce(
+      (result, [title, value]) => {
+        return [
+          Math.max(result[0], title.length),
+          Math.max(result[1], `${value}`.length)
+        ]
+      },
+      [title.length, value.length]
+    )
 
-    const midLine = `├${pad('', titleLength, '─')}┼${pad('', valueLength, '─')}┤`
+    const midLine = `├${pad('', titleLength, '─')}┼${pad(
+      '',
+      valueLength,
+      '─'
+    )}┤`
 
     const bodyLines = []
-    for (let [title, value] of Object.entries(rows)) {
+    for (const [title, value] of Object.entries(rows)) {
       bodyLines.push(
         `│${pad(title, titleLength, ' ')}│${pad(`${value}`, valueLength, ' ')}│`
       )
     }
 
-    this.info.push([
-      `\u001b[1m${section}\u001b[0m`,
-      `┌${pad('', titleLength, '─')}┬${pad('', valueLength, '─')}┐`,
-      `│${pad(title, titleLength, ' ', '\u001b[1m')}│${pad(`${value}`, valueLength, ' ', '\u001b[1m')}│`,
-      midLine,
-      bodyLines.join(`\n${midLine}\n`),
-      `└${pad('', titleLength, '─')}┴${pad('', valueLength, '─')}┘`
-    ].join('\n'))
+    this.info.push(
+      [
+        `\u001b[1m${section}\u001b[0m`,
+        `┌${pad('', titleLength, '─')}┬${pad('', valueLength, '─')}┐`,
+        `│${pad(title, titleLength, ' ', '\u001b[1m')}│${pad(
+          `${value}`,
+          valueLength,
+          ' ',
+          '\u001b[1m'
+        )}│`,
+        midLine,
+        bodyLines.join(`\n${midLine}\n`),
+        `└${pad('', titleLength, '─')}┴${pad('', valueLength, '─')}┘`
+      ].join('\n')
+    )
   }
 
   async finalize(): Promise<void> {
@@ -90,7 +112,12 @@ export class CommandAnnotationRecorder implements AnnotationRecorder {
     throw new Error(`Unsupported level: ${level}`)
   }
 
-  private static pad(str: string, maxSize: number, pad: string, style: string | undefined = undefined): string {
+  private static pad(
+    str: string,
+    maxSize: number,
+    pad: string,
+    style: string | undefined = undefined
+  ): string {
     let styleOpen = ''
     let styleClose = ''
     if (style) {
@@ -98,6 +125,13 @@ export class CommandAnnotationRecorder implements AnnotationRecorder {
       styleClose = '\u001b[0m'
     }
 
-    return pad + styleOpen + str + styleClose + Array(maxSize + 1 - str.length).join(pad) + pad
+    return (
+      pad +
+      styleOpen +
+      str +
+      styleClose +
+      Array(maxSize + 1 - str.length).join(pad) +
+      pad
+    )
   }
 }

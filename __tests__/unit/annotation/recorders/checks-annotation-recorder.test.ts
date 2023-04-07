@@ -1,10 +1,13 @@
-// This file is part of the fibiol.com.
+// This file is part of the cargo-actions.
 //
-// (c) Andrey Savitsky <contact@qroc.pro>
+// Copyright (c) Andrii Savytskyi <contact@qroc.pro>
+//
+// For the full copyright and license information, please view
+// the LICENSE file that was distributed with this source code.
 
-import {ChecksAnnotationRecorder} from '../../../../src/annotation/recorders/ChecksAnnotationRecorder'
-import {Annotation, AnnotationBlock, AnnotationLevel} from '../../../../src/annotation'
-import {RequestError} from '@octokit/request-error'
+import { ChecksAnnotationRecorder } from '../../../../src/annotation/recorders/checks-annotation-recorder'
+import { Annotation, AnnotationBlock, AnnotationLevel } from '../../../../src/annotation'
+import { RequestError } from '@octokit/request-error'
 import nock = require('nock')
 
 async function runRecord(annotationCount: number) {

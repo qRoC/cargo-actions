@@ -1,7 +1,7 @@
 [package]
 name = "second"
 version = "1.0.0"
-authors = ["Andrey Savitsky <contact@qroc.pro>"]
+authors = ["Andrii Savytskyi <contact@qroc.pro>"]
 edition = "2018"
 
 [lib]
