@@ -1,8 +1,14 @@
-// This file is part of the fibiol.com.
+// This file is part of the cargo-actions.
 //
-// (c) Andrey Savitsky <contact@qroc.pro>
+// Copyright (c) Andrii Savytskyi <contact@qroc.pro>
+//
+// For the full copyright and license information, please view
+// the LICENSE file that was distributed with this source code.
 
-import {CargoOutputListener, CargoOutputListeners} from './CargoOutputListener'
+import {
+  CargoOutputListener,
+  CargoOutputListeners
+} from './cargo-output-listener'
 import * as exec from '@actions/exec'
 import {
   Artifact,
@@ -12,7 +18,7 @@ import {
   MessageType,
   parseMessage
 } from './metadata/messages'
-import {CargoProject} from './CargoProject'
+import {CargoProject} from './cargo-project'
 
 ///
 export class Cargo {
@@ -35,6 +41,8 @@ export class Cargo {
 
   ///
   async runCommand(command: string, args: string[]): Promise<number> {
+    let outBuffer = ''
+    let errBuffer = ''
     const resultCode = await exec.exec(
       'cargo',
       [
@@ -48,8 +56,20 @@ export class Cargo {
         silent: true,
         ignoreReturnCode: true,
         listeners: {
-          stdline: this.processOutputLine,
-          errline: this.processErrorLine,
+          stdout: (data: Buffer) => {
+            outBuffer = Cargo.processLineBuffer(
+              data,
+              outBuffer,
+              this.processOutputLine
+            )
+          },
+          stderr: (data: Buffer) => {
+            errBuffer = Cargo.processLineBuffer(
+              data,
+              errBuffer,
+              this.processErrorLine
+            )
+          },
           debug: this.processOutputLine
         }
       }
@@ -62,7 +82,6 @@ export class Cargo {
 
   ///
   private processOutputLine = (line: string): boolean => {
-    // eslint-disable-next-line no-invalid-this
     const listeners = this.listeners
     const [type, record] = parseMessage(line)
     switch (type) {
@@ -83,11 +102,32 @@ export class Cargo {
 
   ///
   private processErrorLine = (line: string): boolean => {
-    // eslint-disable-next-line no-invalid-this
     return this.listeners.textLine(line, true)
   }
 
   private isFormatterSupport(command: string): boolean {
     return command !== 'fmt' && command !== 'audit'
+  }
+
+  private static processLineBuffer(
+    data: Buffer,
+    strBuffer: string,
+    onLine: (line: string) => void
+  ): string {
+    const EOL = '\n'
+
+    let s = strBuffer + data.toString()
+    let n = s.indexOf(EOL)
+
+    while (n > -1) {
+      const line = s.substring(0, n)
+      onLine(line)
+
+      // the rest of the string ...
+      s = s.substring(n + EOL.length)
+      n = s.indexOf(EOL)
+    }
+
+    return s
   }
 }

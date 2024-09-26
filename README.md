@@ -1,62 +1,27 @@
-# Integration Rust Cargo with GitHub Actions
+## Integration Rust Cargo with GitHub Actions
 
-## Example
+### Overview
 
-```yaml
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+<table>
+    <tr>
+        <td rowspan=2 width=45% align=center>
+            <h5>General result</h5>
+            <img src="doc/result.png" alt="General result">
+        </td>
+        <td>
+            <h5>Error in code</h5>
+            <img src="doc/code_error.png" alt="Error in code">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h5>Failed test</h5>
+            <img src="doc/test_error.png" alt="Failed test">
+        </td>
+    </tr>
+</table>
 
-      - uses: fibiol/cargo-actions@v1
-        with:
-          command: build
-          args: --verbose
-
-  code_style:
-    continue-on-error: true
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: fibiol/cargo-actions@v1
-        with:
-          command: fmt
-          args: --all -- --check
-
-  lint:
-    continue-on-error: true
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: fibiol/cargo-actions@v1
-        with:
-          command: clippy
-          args: --all-features --all-targets -- -D warnings
-
-  tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: fibiol/cargo-actions@v1
-        with:
-          command: test
-          args: --all-features --no-fail-fast --jobs 1
-
-  audit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: fibiol/cargo-actions@v1
-        with:
-          command: audit
-```
-
-## Inputs
+### Inputs
 
 - **Required** `command`: Cargo command like `build`, `check`, `test`, etc.
 - `args`: Arguments for the cargo command.
@@ -66,13 +31,79 @@ jobs:
 
 _* Default GitHub Actions annotations supports only up to 10 warnings and 10 errors for per the step. With `token` you up this limit to `1000`_
 
-## Outputs
+### Outputs
 
 - `notice_count`: Notice count.
 - `warning_count`: Warning count.
 - `failure_count`: Failure count.
 
-## For developers
+### Example
+
+```yaml
+
+# if `with.token` is used
+permissions:
+  checks: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: qRoC/cargo-actions@v1
+        with:
+          command: build
+          args: --verbose
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  code_style:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: qRoC/cargo-actions@v1
+        with:
+          command: fmt
+          toolchain: nightly
+          args: --all -- --check
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  lint:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: qRoC/cargo-actions@v1
+        with:
+          command: clippy
+          args: --all-features --all-targets -- -D warnings
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: qRoC/cargo-actions@v1
+        with:
+          command: test
+          args: --all-features --no-fail-fast --jobs 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: qRoC/cargo-actions@v1
+        with:
+          command: audit
+```
+
+### For developers
 
 1. Install the dependencies.
 

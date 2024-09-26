@@ -1,10 +1,13 @@
-// This file is part of the fibiol.com.
+// This file is part of the cargo-actions.
 //
-// (c) Andrey Savitsky <contact@qroc.pro>
+// Copyright (c) Andrii Savytskyi <contact@qroc.pro>
+//
+// For the full copyright and license information, please view
+// the LICENSE file that was distributed with this source code.
 
-import {CargoOutputListener} from '../CargoOutputListener'
+import {CargoOutputListener} from '../cargo-output-listener'
 import {Annotation, AnnotationBlock, AnnotationRecorder} from '../annotation'
-import {CargoProject} from '../CargoProject'
+import {CargoProject} from '../cargo-project'
 import {
   Artifact,
   CompilerMessage,
@@ -19,8 +22,10 @@ export class TestOutputListener implements CargoOutputListener {
   private project: CargoProject
   private logs: Record<string, TestStatus>
 
-  private static regexFull = /test (?<file>.+) - (?<test>.+) \(line (?<line>\d+)\) ... (?<status>ok|ignored|FAILED)/
-  private static regexShort = /test (?<test>.+) ... (?<status>ok|ignored|FAILED)/
+  private static regexFull =
+    /test (?<file>.+) - (?<test>.+) \(line (?<line>\d+)\) ... (?<status>ok|ignored|FAILED)/
+  private static regexShort =
+    /test (?<test>.+) ... (?<status>ok|ignored|FAILED)/
 
   constructor(recorder: AnnotationRecorder, project: CargoProject) {
     this.recorder = recorder

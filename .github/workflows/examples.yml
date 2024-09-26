@@ -1,10 +1,11 @@
+---
 name: "Examples"
-
 on:
   pull_request:
   push:
-    branches: [ main ]
-
+    branches: [main]
+permissions:
+  checks: write
 jobs:
   build:
     name: "Build examples/first"
@@ -12,63 +13,55 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - uses: ./
         with:
           command: build
           args: --verbose
           manifest-path: examples/first
           token: ${{ secrets.GITHUB_TOKEN }}
-
   code_style:
     name: "Code style examples/second"
     continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - uses: ./
         with:
+          toolchain: nightly
           command: fmt
           args: --all -- --check
           manifest-path: examples/second
           token: ${{ secrets.GITHUB_TOKEN }}
-
   lint:
     name: "Lint examples/second"
     continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - uses: ./
         with:
           command: clippy
           args: --all-features --all-targets -- -D warnings
           manifest-path: examples/second
           token: ${{ secrets.GITHUB_TOKEN }}
-
   tests:
     name: "Test examples/second"
     continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - uses: ./
         with:
           command: test
           args: --all-features --no-fail-fast --jobs 1
           manifest-path: examples/second
           token: ${{ secrets.GITHUB_TOKEN }}
-
   audit:
     name: "Audit examples/second"
     continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - uses: ./
         with:
           command: audit
