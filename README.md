@@ -1,20 +1,27 @@
-# Integration Rust Cargo with GitHub Actions
+## Integration Rust Cargo with GitHub Actions
 
-## Overview
+### Overview
 
-### Error in code
+<table>
+    <tr>
+        <td rowspan=2 width=45% align=center>
+            <h5>General result</h5>
+            <img src="doc/result.png" alt="General result">
+        </td>
+        <td>
+            <h5>Error in code</h5>
+            <img src="doc/code_error.png" alt="Error in code">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h5>Failed test</h5>
+            <img src="doc/test_error.png" alt="Failed test">
+        </td>
+    </tr>
+</table>
 
-![Error in code](doc/code_error.png)
-
-### Failed test
-
-![Failed test](doc/test_error.png)
-
-### General result
-
-![doc/result.png](doc/result.png)
-
-## Inputs
+### Inputs
 
 - **Required** `command`: Cargo command like `build`, `check`, `test`, etc.
 - `args`: Arguments for the cargo command.
@@ -24,15 +31,20 @@
 
 _* Default GitHub Actions annotations supports only up to 10 warnings and 10 errors for per the step. With `token` you up this limit to `1000`_
 
-## Outputs
+### Outputs
 
 - `notice_count`: Notice count.
 - `warning_count`: Warning count.
 - `failure_count`: Failure count.
 
-## Example
+### Example
 
 ```yaml
+
+# if `with.token` is used
+permissions:
+  checks: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -91,7 +103,7 @@ jobs:
           command: audit
 ```
 
-## For developers
+### For developers
 
 1. Install the dependencies.
 
